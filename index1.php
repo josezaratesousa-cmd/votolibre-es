@@ -1,0 +1,1197 @@
+<!DOCTYPE html>
+
+<html lang="es">
+    
+    <head>
+        <meta charset=utf-8>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>VotoLibre - Observador Digital de Procesos Electorales</title>
+
+    <!-- Meta Descripción -->
+    <meta name="description" content="VotoLibre es un observador digital para monitorear y proteger la integridad de los procesos electorales.">
+
+    <!-- Meta OG para compartir en redes sociales -->
+    <meta property="og:title" content="VotoLibre - Observador Digital de Procesos Electorales">
+    <meta property="og:description" content="Estamos construyendo una plataforma digital para observar y proteger la integridad de los procesos electorales.">
+    <meta property="og:image" content="https://votolibre.com/assets/img/logo.png">
+    <meta property="og:url" content="https://votolibre.com">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="VotoLibre">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="VotoLibre - Observador Digital de Procesos Electorales">
+    <meta name="twitter:description" content="Pronto lanzaremos nuestra plataforma digital para asegurar la transparencia en las elecciones.">
+    <meta name="twitter:image" content="https://votolibre.com/assets/img/logo.png">        
+        <!-- Load Roboto font -->
+        <link href='http://fonts.googleapis.com/css?family=Roboto:400,300,700&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+        <!-- Load css styles -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+        <link rel="stylesheet" type="text/css" href="css/bootstrap-responsive.css" />
+        <link rel="stylesheet" type="text/css" href="css/style.css" />
+        <link rel="stylesheet" type="text/css" href="css/pluton.css" />
+        <!--[if IE 7]>
+            <link rel="stylesheet" type="text/css" href="css/pluton-ie7.css" />
+        <![endif]-->
+        <link rel="stylesheet" type="text/css" href="css/jquery.cslider.css" />
+        <link rel="stylesheet" type="text/css" href="css/jquery.bxslider.css" />
+        <link rel="stylesheet" type="text/css" href="css/animate.css" />
+        <!-- Fav and touch icons -->
+        <link rel="apple-touch-icon-precomposed" sizes="144x144" href="images/ico/apple-touch-icon-144.png">
+        <link rel="apple-touch-icon-precomposed" sizes="114x114" href="images/ico/apple-touch-icon-114.png">
+        <link rel="apple-touch-icon-precomposed" sizes="72x72" href="images/apple-touch-icon-72.png">
+        <link rel="apple-touch-icon-precomposed" href="images/ico/apple-touch-icon-57.png">
+        <!--link rel="shortcut icon" href="images/ico/favicon.ico"-->
+        <link rel="icon" href="/favicon.png" type="image/png">
+        
+        <!-- Honduras Banner Styles -->
+        <style>
+            /* Honduras Election Banner */
+            .honduras-banner {
+                background: linear-gradient(135deg, #0073CF 0%, #00529B 50%, #0073CF 100%);
+                position: relative;
+                overflow: hidden;
+                padding: 0;
+                box-shadow: 0 4px 20px rgba(0, 115, 207, 0.4);
+            }
+            
+            .honduras-banner::before {
+                content: '';
+                position: absolute;
+                top: 0;
+                left: 0;
+                right: 0;
+                bottom: 0;
+                background: 
+                    linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
+                animation: shimmer 3s infinite;
+            }
+            
+            @keyframes shimmer {
+                0% { transform: translateX(-100%); }
+                100% { transform: translateX(100%); }
+            }
+            
+            .banner-content {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+                padding: 16px 20px;
+                position: relative;
+                z-index: 2;
+            }
+            
+            .banner-flag {
+                display: flex;
+                flex-direction: column;
+                width: 50px;
+                height: 32px;
+                border-radius: 4px;
+                overflow: hidden;
+                box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+                flex-shrink: 0;
+            }
+            
+            .flag-stripe {
+                flex: 1;
+            }
+            
+            .flag-stripe.blue {
+                background: #0073CF;
+            }
+            
+            .flag-stripe.white {
+                background: #FFFFFF;
+                position: relative;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+            
+            .flag-stars {
+                display: flex;
+                gap: 2px;
+                font-size: 6px;
+                color: #0073CF;
+            }
+            
+            .banner-text {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+            
+            .banner-country {
+                display: flex;
+                align-items: center;
+                gap: 8px;
+                margin-bottom: 4px;
+            }
+            
+            .banner-country-name {
+                color: #FFFFFF;
+                font-size: 13px;
+                font-weight: 700;
+                text-transform: uppercase;
+                letter-spacing: 3px;
+                text-shadow: 0 1px 3px rgba(0,0,0,0.3);
+            }
+            
+            .banner-live-badge {
+                background: #dc3545;
+                color: white;
+                font-size: 9px;
+                font-weight: 700;
+                padding: 3px 8px;
+                border-radius: 20px;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                animation: pulse-badge 2s infinite;
+                display: flex;
+                align-items: center;
+                gap: 4px;
+            }
+            
+            .banner-live-badge::before {
+                content: '';
+                width: 6px;
+                height: 6px;
+                background: white;
+                border-radius: 50%;
+                animation: blink 1s infinite;
+            }
+            
+            @keyframes pulse-badge {
+                0%, 100% { transform: scale(1); }
+                50% { transform: scale(1.05); }
+            }
+            
+            @keyframes blink {
+                0%, 100% { opacity: 1; }
+                50% { opacity: 0.5; }
+            }
+            
+            .banner-title {
+                color: #FFFFFF;
+                font-size: 18px;
+                font-weight: 700;
+                margin: 0;
+                text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+            }
+            
+            .banner-subtitle {
+                color: rgba(255,255,255,0.9);
+                font-size: 12px;
+                margin: 2px 0 0 0;
+                font-weight: 400;
+            }
+            
+            .banner-btn {
+                background: #FFFFFF;
+                color: #0073CF;
+                font-size: 14px;
+                font-weight: 700;
+                padding: 12px 28px;
+                border-radius: 50px;
+                text-decoration: none;
+                text-transform: uppercase;
+                letter-spacing: 1px;
+                transition: all 0.3s ease;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+                display: inline-flex;
+                align-items: center;
+                gap: 8px;
+                border: 2px solid transparent;
+            }
+            
+            .banner-btn:hover {
+                background: transparent;
+                color: #FFFFFF;
+                border-color: #FFFFFF;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+                text-decoration: none;
+            }
+            
+            .banner-btn-icon {
+                font-size: 18px;
+                transition: transform 0.3s ease;
+            }
+            
+            .banner-btn:hover .banner-btn-icon {
+                transform: translateX(4px);
+            }
+            
+            .banner-close {
+                position: absolute;
+                right: 15px;
+                top: 50%;
+                transform: translateY(-50%);
+                background: rgba(255,255,255,0.2);
+                border: none;
+                color: white;
+                width: 28px;
+                height: 28px;
+                border-radius: 50%;
+                cursor: pointer;
+                font-size: 16px;
+                line-height: 1;
+                transition: all 0.3s ease;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .banner-close:hover {
+                background: rgba(255,255,255,0.3);
+                transform: translateY(-50%) rotate(90deg);
+            }
+            
+            /* Decorative elements */
+            .banner-decoration {
+                position: absolute;
+                opacity: 0.1;
+                pointer-events: none;
+            }
+            
+            .banner-decoration.left {
+                left: 20px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 60px;
+            }
+            
+            .banner-decoration.right {
+                right: 60px;
+                top: 50%;
+                transform: translateY(-50%);
+                font-size: 60px;
+            }
+            
+            /* Responsive */
+            @media (max-width: 768px) {
+                .banner-content {
+                    padding: 14px 45px 14px 15px;
+                    gap: 12px;
+                }
+                
+                .banner-flag {
+                    width: 40px;
+                    height: 26px;
+                }
+                
+                .banner-country-name {
+                    font-size: 11px;
+                    letter-spacing: 2px;
+                }
+                
+                .banner-title {
+                    font-size: 15px;
+                }
+                
+                .banner-subtitle {
+                    font-size: 11px;
+                }
+                
+                .banner-btn {
+                    font-size: 12px;
+                    padding: 10px 20px;
+                }
+                
+                .banner-decoration {
+                    /*display: none;*/
+                }
+                
+                .banner-live-badge {
+                    font-size: 8px;
+                    padding: 2px 6px;
+                }
+            }
+            
+            @media (max-width: 480px) {
+                .banner-content {
+                    flex-direction: column;
+                    gap: 10px;
+                    padding: 12px 40px 12px 12px;
+                }
+                
+                .banner-flag {
+                    /*display: none;*/
+                }
+                
+                .banner-title {
+                    font-size: 14px;
+                }
+                
+                .banner-btn {
+                    width: 100%;
+                    justify-content: center;
+                    padding: 10px 16px;
+                }
+            }
+            
+            /* Animation on load */
+            .honduras-banner {
+                animation: slideDown 0.5s ease-out;
+            }
+            
+            @keyframes slideDown {
+                from {
+                    transform: translateY(-100%);
+                    opacity: 0;
+                }
+                to {
+                    transform: translateY(0);
+                    opacity: 1;
+                }
+            }
+            
+            /* Adjust body when banner is present */
+            body.has-banner .navbar {
+                margin-top: 0;
+            }
+        </style>
+    </head>
+    
+    <body class="has-banner">
+        
+        
+        
+        <div class="navbar">
+            <div class="navbar-inner">
+                <div class="container">
+                    <a href="#" class="brand">
+                        <img src="https://votolibre.info/img/logo.png" width1="120" alt="VotoLibre.info" />
+                        <!-- This is website logo -->
+                    </a>
+                    <!-- Navigation button, visible on small resolution -->
+                    <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
+                        <i class="icon-menu"></i>
+                    </button>
+                    <!-- Main navigation -->
+                    <div class="nav-collapse collapse pull-right">
+                        <ul class="nav" id="top-navigation">
+                            <li class="active"><a href="#home">Inicio</a></li>
+                            <li><a href="#service">Nosotros</a></li>
+                            <li><a href="#portfolio">Información</a></li>
+                            <li><a href="#about">Tecnología</a></li>
+                            <li><a href="#contact">Contactos</a></li>
+                        </ul>
+                    </div>
+                    <!-- End main navigation -->
+                </div>
+            </div>
+        </div>
+        
+        <!-- Honduras Election Banner -->
+        <div class="honduras-banner" id="hondurasBanner">
+            <span class="banner-decoration left">🗳️</span>
+            <span class="banner-decoration right">✓</span>
+            <div class="banner-content">
+                <div class="banner-flag">
+                    <div class="flag-stripe blue"></div>
+                    <div class="flag-stripe white">
+                        <div class="flag-stars">★ ★ ★ ★ ★</div>
+                    </div>
+                    <div class="flag-stripe blue"></div>
+                </div>
+                <div class="banner-text">
+                    <div class="banner-country">
+                        <span class="banner-country-name">Honduras</span>
+                        <span class="banner-live-badge">Elecciones 2025</span>
+                    </div>
+                    <p class="banner-title">Elecciones Generales - DOMINGO 30 DE NOVIEMBRE 2025</p>
+                    <p class="banner-subtitle">Verifica las actas electorales en tiempo real con tecnología blockchain</p>
+                </div>
+                <a href="https://validaqr.votolibre.info" class="banner-btn">
+                    Verifica Actas
+                    <span class="banner-btn-icon">→</span>
+                </a>
+                <a href="https://votolibre.info/panel/hn/2025/map/" target="_blank" class="banner-btn">
+                    Ver mapa electoral
+                    <span class="banner-btn-icon">→</span>
+                </a>
+                
+            </div>
+        </div>
+        
+        <script>
+            // Add slideUp animation
+            var style = document.createElement('style');
+            style.textContent = '@keyframes slideUp { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-100%); opacity: 0; } }';
+            document.head.appendChild(style);
+        </script>
+        <!-- Start home section -->
+        <div id="home">
+            <!-- Start cSlider -->
+            <div id="da-slider" class="da-slider">
+                <div class="triangle"></div>
+                <!-- mask elemet use for masking background image -->
+                <div class="mask"></div>
+                <!-- All slides centred in container element -->
+                <div class="container">
+                    <!-- Start first slide -->
+                    <div class="da-slide">
+                        <h2 class="fittext2">Registrate como voluntario</h2>
+                        <h4>Observadores o embajadores</h4>
+                        <p style="color:#444;">Estamos construyendo el "observador digital" para la vigilancia ciudadana de los procesos electorales más seguro del mundo. Porque la democracia se protege con cada voto y cada ciudadano</p>
+                        <a href="https://votolibre.info/forms/v" class="da-link button">Registrate</a>
+                        <div class="da-img">
+                            <img src="images/observadores.png" alt="image01" width="320">
+                        </div>
+                    </div>
+                    <!-- End first slide -->
+                    <!-- Start second slide -->
+                    <div class="da-slide">
+                        <h2>¿Qué hacemos?</h2>
+                        <h4>Misión</h4>
+                        <p style="color:#444;">Hemos creado una herramienta tecnológica que utiliza Blockchain e IA para garantizar la transparencia electoral, permitiendo a personeros y observadores reportar aperturas, incidencias, conteos y resultados en tiempo real desde un aplicativo móvil</p>
+                        <a href="https://votolibre.info/es/votolibre.pdf" target="_blank" class="da-link button">Ver presentación</a>
+                        <div class="da-img">
+                            <img src="images/observador2.png" width="320" alt="image02">
+                        </div>
+                    </div>
+                    <!-- End second slide -->
+                    <!-- Start third slide -->
+                    <div class="da-slide">
+                        <h2>Informacíon en tiempo real</h2>
+                        <h4>Transparencia</h4>
+                        <p style="color:#444;">Mostramos mapas interactivos en tiempo real con apertura de mesas, incidencias, ocurrencias y actas electorales, usando Blockchain para atestar y IA para un conteo rápido, creando un testigo confiable en los procesos electrorales</p>
+                        <a href="mailto:info@votolibre.info" class="da-link button">Solicita información</a>
+                        <div class="da-img">
+                            <img src="images/observador3.png" width="320" alt="image03">
+                        </div>
+                    </div>
+                    <!-- Start third slide -->
+                    <!-- Start cSlide navigation arrows -->
+                    <div class="da-arrows">
+                        <span class="da-arrows-prev"></span>
+                        <span class="da-arrows-next"></span>
+                    </div>
+                    <!-- End cSlide navigation arrows -->
+                </div>
+            </div>
+        </div>
+        <!-- End home section -->
+        <!-- Service section start -->
+        <div class="section primary-section" id="service">
+            <div class="container">
+                <!-- Start title section -->
+                <div class="title">
+                    <h1>SOBRE NOSOTROS</h1>
+                    <!-- Section's title goes here -->
+                    <p>Hemos desarrollado una herramienta tecnológica necesaria para salvaguardar la transparencia del proceso electoral. A través de un aplicativo móvil empoderamos al personero y observador electoral con las funcionalidades de reporte apertura de mesas, incidencias, conteo de votos, y resultados finales. Aseguramos el inmediato registro, almacenaje, atestación, y publicación de los reportes. Aplicamos Blockchain e inteligencia artificial.</p>
+                    <!--Simple description for section goes here. -->
+                </div>
+                <div class="title">
+                    <h1>Vigilia ciudadana</h1>
+                </div>
+                <div class="row-fluid">
+                    
+
+                    <div class="span4">
+                        <div class="centered service">
+                            <div class="circle-border zoom-in">
+                                <img class="img-circle" src="images/Service1.png" alt="service 1">
+                            </div>
+                            <h3>Aperturas de salas</h3>
+                            <p>Los observadores informan las aperturas de salas de votación</p>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="centered service">
+                            <div class="circle-border zoom-in">
+                                <img class="img-circle" src="images/Service2.png" alt="service 2" />
+                            </div>
+                            <h3>Incidencias</h3>
+                            <p>Se reportarán las fotos de incidencias reportadas durante el proceso</p>
+                        </div>
+                    </div>
+                    <div class="span4">
+                        <div class="centered service">
+                            <div class="circle-border zoom-in">
+                                <img class="img-circle" src="images/Service3.png" alt="service 3">
+                            </div>
+                            <h3>Actas electrorales</h3>
+                            <p>Cada acta será atestada, publicadas y contabilizadas en la blockchain</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Service section end -->
+        <!-- Portfolio section start -->
+        <div class="section secondary-section " id="portfolio">
+            <div class="triangle"></div>
+            <div class="container">
+                <div class=" title">
+                    <h1>¿Qué verás aquí?</h1>
+                    <p>En esta sección podrás visualizar las ocurrencias reportadas y firmadas electrónicamente por personeros y observadores durante los procesos electorales. Nuestro sistema de inteligencia artificial analiza y clasifica las fotos según reglas definidas, permitiendo a cualquier ciudadano compartirlas en redes sociales y crear una red de vigilancia participativa para proteger los votos. ¡Juntos hacemos la diferencia!</p>
+                </div>
+                                <ul class="nav nav-pills" id="vl-filters">
+                    <li class="filter active" data-filter="all"><a href="#noAction">Todas</a></li>
+                    <li class="filter" data-filter="material"><a href="#noAction">Material</a></li>
+                    <li class="filter" data-filter="conflicto"><a href="#noAction">Conflictos</a></li>
+                    <li class="filter" data-filter="personero"><a href="#noAction">Personeros</a></li>
+                    <li class="filter" data-filter="irregularidad"><a href="#noAction">Irregularidades</a></li>
+                    <li class="filter" data-filter="otro"><a href="#noAction">Curiosidades</a></li>
+                </ul>
+                <!-- dynamic: details handled by JS -->
+                    <ul id="portfolio-grid" class="thumbnails row">
+                        <li id="vl-empty-state" class="span12" style="text-align:center;padding:40px 0;color:#999;">Cargando ocurrencias...</li>
+                    </ul>
+                            <div class="mask">
+                                <!--h2>Designer</h2>
+                                <p>When you stop expecting people to be perfect, you can like them for who they are.</p-->
+                            </div>
+                            </div>
+                        </li>
+                        <li class="span4 mix web">
+                            <div class="thumbnail">
+                                <img src="images/Portfolio01.png" alt="project 1">
+                                <a href="#single-project" class="more show_hide" rel="#slidingDiv">
+                                    <i class="icon-plus"></i>
+                                </a>
+                                <h3>Titulo de la ocurrencia</h3>
+                                <p>Alias del informador</p>
+                                <ul class="social">
+                                <li>
+                                    <a href="">
+                                        <span class="icon-facebook-circled"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <span class="icon-twitter-circled"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <span class="icon-linkedin-circled"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="mask">
+                            </div>
+                            </div>
+                        </li>
+                        <li class="span4 mix web">
+                            <div class="thumbnail">
+                                <img src="images/Portfolio01.png" alt="project 1">
+                                <a href="#single-project" class="more show_hide" rel="#slidingDiv">
+                                    <i class="icon-plus"></i>
+                                </a>
+                                <h3>Titulo de la ocurrencia</h3>
+                                <p>Alias del informador</p>
+                                <ul class="social">
+                                <li>
+                                    <a href="">
+                                        <span class="icon-facebook-circled"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <span class="icon-twitter-circled"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="">
+                                        <span class="icon-linkedin-circled"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="mask">
+                            </div>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- Portfolio section end -->
+        <!-- About us section start -->
+        <div class="section primary-section" id="about">
+            <div class="triangle"></div>
+            <div class="container">
+                <div class="title">
+                    <h1>¿Qué tecnología utilizamos?</h1>
+                    <p>El observador digital requiere de tecnología para crear un testigo fiable de todo el proceso electoral</p>
+                </div>
+                <div class="row-fluid team">
+                    <div class="span4" id="first-person">
+                        <div class="thumbnail">
+                            <img src="images/atestado.png" alt="team 1">
+                            <h3>Tecnología Blockchain</h3>
+                            <p>Ofrecemos pruebas públicas de integridad de la información, certificando la existencia con fecha exacta y garantizando, mediante firmas digitales, la autenticidad y responsabilidad del informador (personero u observador)</p>
+                            <div class="mask">
+                                <h2>Modo de uso</h2>
+                                <p>Utilizamos la red blockchain del BID como testigo digital, asegurando la integridad y autenticidad de cada foto o acta electoral. Este sistema prueba su existencia en un momento específico, garantiza que fue enviada por un observador o personero, y certifica que no ha sido alterada desde su envío hasta su verificación</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4" id="second-person">
+                        <div class="thumbnail">
+                            <img src="images/conteo.png" alt="team 1">
+                            <h3>Inteligencia artificial</h3>
+                            <p>Aplicamos inteligencia artificial para clasificar fotos de ocurrencias según criterios predefinidos y procesar actas de forma rápida y precisa, asegurando resultados eficientes y confiables en los procesos electorales</p>
+                            
+                            <div class="mask">
+                                <h2>Modo de uso</h2>
+                                <p>Utilizamos inteligencia artificial para analizar y clasificar automáticamente las fotos de ocurrencias reportadas durante los procesos electorales, aplicando criterios predefinidos. Además, empleamos algoritmos avanzados para procesar y contabilizar las actas de manera eficiente y precisa, acelerando la generación de resultados confiables</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span4" id="third-person">
+                        <div class="thumbnail">
+                            <img src="images/actaatestada.png" alt="team 1">
+                            <h3>Servidores interplanetarios (IPFS)</h3>
+                            <p>Publicamos las actas electorales en IPFS, una red descentralizada que garantiza resistencia a la censura. Esto asegura que las actas sean accesibles, inalterables y protegidas contra fraudes o modificaciones</p>
+                            <div class="mask">
+                                <h2>Modo de uso</h2>
+                                <p>Las actas electorales se cargan a IPFS, una red descentralizada que fragmenta los datos y los distribuye en múltiples nodos. Cada acta genera un identificador único e inmutable (CID) que certifica su autenticidad. Este CID permite acceder al archivo sin depender de un servidor centralizado, asegurando que las actas permanezcan disponibles, protegidas contra censura, modificaciones y eliminación.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-text centered">
+                    <h3>El equipo</h3>
+                    <p>Sabemos que la tecnología es solo una parte de la solución. Somos un equipo multidisciplinario de voluntarios con una misión clara: proteger la democracia y prevenir el fraude electoral. Contamos con una base sólida de habilidades, pero aún nos faltan talentos clave para fortalecer nuestro impacto. ¡Únete a nosotros y ayuda a construir el observatorio digital más grande y seguro del mundo! Descubre las habilidades que necesitamos y sé parte de este movimiento histórico</p>
+                </div>
+                <h3>Habilidades que buscamos</h3>
+                <div class="row-fluid">
+                    <div class="span6">
+                        <ul class="skills">
+                            <li>
+                                <span class="bar" data-width="90%"></span>
+                                <h3>Coordinación logística</h3>
+                            </li>
+                            <li>
+                                <span class="bar" data-width="75%"></span>
+                                <h3>Estrategia social</h3>
+                            </li>
+                            <li>
+                                <span class="bar" data-width="40%"></span>
+                                <h3>Tecnológicas</h3>
+                            </li>
+                            <li>
+                                <span class="bar" data-width="22%"></span>
+                                <h3>Soporte legal</h3>
+                            </li>
+
+                        </ul>
+                    </div>
+                    <div class="span6">
+                        <div class="highlighted-box center">
+                            <h1>¿Te unes al equipo?</h1>
+                            <p>El cambio no sucede observando, sucede actuando. Únete a nosotros y sé parte de la transformación que garantiza elecciones justas y transparentes.</p>
+                            <p>¡Juntos lo lograremos!</p>
+                            <a href="https://votolibre.info/forms/v/" class="button button-sp">Registrate como voluntario</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- About us section end -->
+        <div class="section secondary-section">
+            <div class="triangle"></div>
+            <div class="container centered">
+                <blockquote class="quote">
+                    <p class="large-text">"La democracia no es un estado. Es una actitud. Es la disposición de los ciudadanos para participar, proteger y mejorar lo que tienen."</p>
+                    <p class="author">Václav Havel (1936-2011)</p>
+                    <p class="bio" style="font-size: 12px;">Primer presidente de la República Checa tras la disolución de Checoslovaquia en 1993</p>
+                </blockquote>
+            </div>
+        </div>        <!-- Client section start -->
+        <style>
+        .quote {
+            font-style: italic;
+            font-size: 1.5rem;
+            text-align: center;
+            border-left: 5px solid #888;
+            padding-left: 20px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .author {
+            text-align: center;
+            font-weight: bold;
+            margin-top: -35px;
+            color: #333;
+        }
+    
+        .bio {
+            text-align: center;
+            color: #333;
+            margin-top: 0px;
+        }
+    
+        .container.centered {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+    </style>
+        <!-- Client section start -->
+        <!--div id="clients">
+            <div class="section primary-section">
+                <div class="triangle"></div>
+                <div class="container">
+                    <div class="title">
+                        <h1>What Client Say?</h1>
+                        <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                    </div>
+                    <div class="row">
+                        <div class="span4">
+                            <div class="testimonial">
+                                <p>"I've worked too hard and too long to let anything stand in the way of my goals. I will not let my teammates down and I will not let myself down."</p>
+                                <div class="whopic">
+                                    <div class="arrow"></div>
+                                    <img src="images/Client1.png" class="centered" alt="client 1">
+                                    <strong>John Doe
+                                        <small>Client</small>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="testimonial">
+                                <p>"In motivating people, you've got to engage their minds and their hearts. I motivate people, I hope, by example - and perhaps by excitement, by having productive ideas to make others feel involved."</p>
+                                <div class="whopic">
+                                    <div class="arrow"></div>
+                                    <img src="images/Client2.png" class="centered" alt="client 2">
+                                    <strong>John Doe
+                                        <small>Client</small>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="span4">
+                            <div class="testimonial">
+                                <p>"Determine never to be idle. No person will have occasion to complain of the want of time who never loses any. It is wonderful how much may be done if we are always doing."</p>
+                                <div class="whopic">
+                                    <div class="arrow"></div>
+                                    <img src="images/Client3.png" class="centered" alt="client 3">
+                                    <strong>John Doe
+                                        <small>Client</small>
+                                    </strong>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="testimonial-text">
+                        "Perfection is Achieved Not When There Is Nothing More to Add, But When There Is Nothing Left to Take Away"
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="section third-section">
+            <div class="container centered">
+                <div class="sub-section">
+                    <div class="title clearfix">
+                        <div class="pull-left">
+                            <h3>Our Clients</h3>
+                        </div>
+                        <ul class="client-nav pull-right">
+                            <li id="client-prev"></li>
+                            <li id="client-next"></li>
+                        </ul>
+                    </div>
+                    <ul class="row client-slider" id="clint-slider">
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo01.png" alt="client logo 1">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo02.png" alt="client logo 2">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo03.png" alt="client logo 3">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo04.png" alt="client logo 4">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo05.png" alt="client logo 5">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo02.png" alt="client logo 6">
+                            </a>
+                        </li>
+                        <li>
+                            <a href="">
+                                <img src="images/clients/ClientLogo04.png" alt="client logo 7">
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div-->
+        <!-- Price section start -->
+        <!--div id="price" class="section secondary-section">
+            <div class="container">
+                <div class="title">
+                    <h1>Price</h1>
+                    <p>Duis mollis placerat quam, eget laoreet tellus tempor eu. Quisque dapibus in purus in dignissim.</p>
+                </div>
+                <div class="price-table row-fluid">
+                    <div class="span4 price-column">
+                        <h3>Basic</h3>
+                        <ul class="list">
+                            <li class="price">$19,99</li>
+                            <li><strong>Free</strong> Setup</li>
+                            <li><strong>24/7</strong> Support</li>
+                            <li><strong>5 GB</strong> File Storage</li>
+                        </ul>
+                        <a href="#" class="button button-ps">BUY</a>
+                    </div>
+                    <div class="span4 price-column">
+                        <h3>Pro</h3>
+                        <ul class="list">
+                            <li class="price">$39,99</li>
+                            <li><strong>Free</strong> Setup</li>
+                            <li><strong>24/7</strong> Support</li>
+                            <li><strong>25 GB</strong> File Storage</li>
+                        </ul>
+                        <a href="#" class="button button-ps">BUY</a>
+                    </div>
+                    <div class="span4 price-column">
+                        <h3>Premium</h3>
+                        <ul class="list">
+                            <li class="price">$79,99</li>
+                            <li><strong>Free</strong> Setup</li>
+                            <li><strong>24/7</strong> Support</li>
+                            <li><strong>50 GB</strong> File Storage</li>
+                        </ul>
+                        <a href="#" class="button button-ps">BUY</a>
+                    </div>
+                </div>
+                <div class="centered">
+                    <p class="price-text">We Offer Custom Plans. Contact Us For More Info.</p>
+                    <a href="#contact" class="button">Contact Us</a>
+                </div>
+            </div>
+        </div-->
+        <!-- Price section end -->
+        <!-- Newsletter section start -->
+        <!--div class="section third-section">
+            <div class="container newsletter">
+                <div class="sub-section">
+                    <div class="title clearfix">
+                        <div class="pull-left">
+                            <h3>Newsletter</h3>
+                        </div>
+                    </div>
+                </div>
+                <div id="success-subscribe" class="alert alert-success invisible">
+                    <strong>Well done!</strong>You successfully subscribet to our newsletter.</div>
+                <div class="row-fluid">
+                    <div class="span5">
+                        <p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod tincidunt ut laoreet dolore magna aliquam erat volutpat.</p>
+                    </div>
+                    <div class="span7">
+                        <form class="inline-form">
+                            <input type="email" name="email" id="nlmail" class="span8" placeholder="Enter your email" required />
+                            <button id="subscribe" class="button button-sp">Subscribe</button>
+                        </form>
+                        <div id="err-subscribe" class="error centered">Please provide valid email address.</div>
+                    </div>
+                </div>
+            </div>
+        </div-->
+        <!-- Newsletter section end -->
+        <!-- Contact section start -->
+        <div id="contact" class="contact">
+            <div class="section secondary-section">
+                <div class="container">
+                    <div class="title">
+                        <h1>Contactos</h1>
+                        <p></p>
+                    </div>
+                </div>
+                <!--div class="map-wrapper">
+                    <div class="map-canvas" id="map-canvas">Loading map...</div>
+                    <div class="container">
+                        <div class="row-fluid">
+                            <div class="span5 contact-form centered">
+                                <h3>Say Hello</h3>
+                                <div id="successSend" class="alert alert-success invisible">
+                                    <strong>Well done!</strong>Your message has been sent.</div>
+                                <div id="errorSend" class="alert alert-error invisible">There was an error.</div>
+                                <form id="contact-form" action="php/mail.php">
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <input class="span12" type="text" id="name" name="name" placeholder="* Your name..." />
+                                            <div class="error left-align" id="err-name">Please enter name.</div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <input class="span12" type="email" name="email" id="email" placeholder="* Your email..." />
+                                            <div class="error left-align" id="err-email">Please enter valid email adress.</div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <textarea class="span12" name="comment" id="comment" placeholder="* Comments..."></textarea>
+                                            <div class="error left-align" id="err-comment">Please enter your comment.</div>
+                                        </div>
+                                    </div>
+                                    <div class="control-group">
+                                        <div class="controls">
+                                            <button id="send-mail" class="message-btn">Send message</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div-->
+                <div class="container">
+                    <div class="span9 center contact-info">
+                        <p class="info-mail">info@votolibre.info</p>
+                        <p>+51 975514370</p>
+                        <div class="title">
+                            <h3>Nuestras redes sociales (¡Muy pronto!)</h3>
+                        </div>
+                    </div>
+                    <div class="row-fluid centered">
+                        <ul class="social">
+                            <li>
+                                <a href="">
+                                    <span class="icon-facebook-circled"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="icon-twitter-circled"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="icon-linkedin-circled"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="icon-pinterest-circled"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="icon-dribbble-circled"></span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="">
+                                    <span class="icon-gplus-circled"></span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Contact section edn -->
+        <!-- Footer section start -->
+        <div class="footer">
+            <p> Derechos reservados por <i class="fa fa-love"></i><a href="https://votolibre.info">Votolibre.info</a>
+</p>
+        </div>
+        <!-- Footer section end -->
+        <!-- ScrollUp button start -->
+        <div class="scrollup">
+            <a href="#">
+                <i class="icon-up-open"></i>
+            </a>
+        </div>
+        <!-- ScrollUp button end -->
+        <!-- Include javascript -->
+        <script src="js/jquery.js"></script>
+        <script type="text/javascript" src="js/jquery.mixitup.js"></script>
+        <script type="text/javascript" src="js/bootstrap.js"></script>
+        <script type="text/javascript" src="js/modernizr.custom.js"></script>
+        <script type="text/javascript" src="js/jquery.bxslider.js"></script>
+        <script type="text/javascript" src="js/jquery.cslider.js"></script>
+        <script type="text/javascript" src="js/jquery.placeholder.js"></script>
+        <script type="text/javascript" src="js/jquery.inview.js"></script>
+        <!-- Load google maps api and call initializeMap function defined in app.js -->
+        <!--script async="" defer="" type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false&callback=initializeMap"></script-->
+        <!-- css3-mediaqueries.js for IE8 or older -->
+        <!--[if lt IE 9]>
+            <script src="js/respond.min.js"></script>
+        <![endif]-->
+        <script type="text/javascript" src="js/app.js"></script>
+    
+<!-- VotoLibre live ocurrencias feed -->
+<style>
+#portfolio-grid .vl-card { opacity: 0; transform: translateY(-20px); transition: opacity 0.6s ease, transform 0.6s ease; }
+#portfolio-grid .vl-card.vl-visible { opacity: 1; transform: translateY(0); }
+#portfolio-grid .vl-card .thumbnail { position: relative; }
+#portfolio-grid .vl-card .vl-badge { position: absolute; top: 10px; right: 10px; background: #FECE1A; color: #0d0d0d; padding: 3px 10px; border-radius: 12px; font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; z-index: 2; }
+#portfolio-grid .vl-card .vl-time { font-size: 0.72rem; color: #999; margin-top: 4px; }
+#portfolio-grid .vl-card .vl-texto { color: #ccc; font-size: 0.82rem; line-height: 1.35; margin: 8px 0 0; padding: 0 10px; text-align: left; }
+#portfolio-grid .vl-card img { width: 100%; height: 220px; object-fit: cover; }
+#portfolio-grid .vl-card .vl-nophoto { width: 100%; height: 220px; background: linear-gradient(135deg, #1a1a1a, #2a2a2a); display: flex; align-items: center; justify-content: center; color: #FECE1A; font-size: 3rem; }
+#vl-filters .filter.active a { background-color: #FECE1A !important; color: #0d0d0d !important; }
+#vl-empty-state { font-style: italic; }
+</style>
+<script>
+(function(){
+    var API = 'https://votolibre.info/app/api/ocurrencias-public.php';
+    var POLL_MS = 30000;
+    var currentFilter = 'all';
+    var lastSeenIso = null;
+    var seenIds = {};
+    var pollTimer = null;
+
+    var CAT_LABELS = {
+        material: 'Material',
+        conflicto: 'Conflicto',
+        personero: 'Personero',
+        irregularidad: 'Irregularidad',
+        otro: 'Curiosidad'
+    };
+    var CAT_ICONS = {
+        material: '📦',
+        conflicto: '⚠️',
+        personero: '👤',
+        irregularidad: '🚨',
+        otro: '💬'
+    };
+
+    function escapeHtml(s) {
+        if (!s) return '';
+        return String(s).replace(/[&<>"']/g, function(c){
+            return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];
+        });
+    }
+
+    function relativeTime(isoStr) {
+        if (!isoStr) return '';
+        var d = new Date(isoStr.replace(' ', 'T'));
+        var diff = (Date.now() - d.getTime()) / 1000;
+        if (diff < 60) return 'hace un momento';
+        if (diff < 3600) return 'hace ' + Math.floor(diff/60) + ' min';
+        if (diff < 86400) return 'hace ' + Math.floor(diff/3600) + ' h';
+        if (diff < 604800) return 'hace ' + Math.floor(diff/86400) + ' d';
+        return d.toLocaleDateString('es-PE', {day:'2-digit', month:'short'});
+    }
+
+    function buildCard(o) {
+        var icon = CAT_ICONS[o.categoria] || '💬';
+        var label = CAT_LABELS[o.categoria] || o.categoria;
+        var mesaTxt = o.mesa_numero ? 'Mesa ' + o.mesa_numero : 'Reporte general';
+        var ubic = o.ubicacion ? ' · ' + escapeHtml(o.ubicacion) : '';
+        var fotoHtml = o.foto_path
+            ? '<img src="' + escapeHtml(o.foto_path) + '" alt="Ocurrencia" loading="lazy">'
+            : '<div class="vl-nophoto">' + icon + '</div>';
+        return '<li class="span4 mix ' + o.categoria + ' vl-card" data-cat="' + o.categoria + '" data-id="' + o.id + '">' +
+                   '<div class="thumbnail">' +
+                       '<span class="vl-badge">' + icon + ' ' + label + '</span>' +
+                       fotoHtml +
+                       '<h3>' + escapeHtml(o.alias) + '</h3>' +
+                       '<p>' + escapeHtml(mesaTxt) + ubic + '</p>' +
+                       '<p class="vl-texto">' + escapeHtml(o.texto) + '</p>' +
+                       '<div class="vl-time">' + relativeTime(o.created_at) + '</div>' +
+                   '</div>' +
+               '</li>';
+    }
+
+    function renderList(list, prepend) {
+        var grid = document.getElementById('portfolio-grid');
+        var empty = document.getElementById('vl-empty-state');
+        if (empty) empty.remove();
+        if (!list.length && !grid.querySelector('.vl-card')) {
+            grid.innerHTML = '<li id="vl-empty-state" class="span12" style="text-align:center;padding:40px 0;color:#999;">No hay ocurrencias reportadas aún</li>';
+            return;
+        }
+        var fragmentHtml = '';
+        list.forEach(function(o){
+            if (seenIds[o.id]) return;
+            seenIds[o.id] = true;
+            fragmentHtml += buildCard(o);
+            if (!lastSeenIso || o.created_at > lastSeenIso) lastSeenIso = o.created_at;
+        });
+        if (!fragmentHtml) return;
+        var wrap = document.createElement('div');
+        wrap.innerHTML = '<ul>' + fragmentHtml + '</ul>';
+        var newLis = wrap.querySelectorAll('li');
+        if (prepend) {
+            Array.prototype.slice.call(newLis).reverse().forEach(function(li){
+                grid.insertBefore(li, grid.firstChild);
+            });
+        } else {
+            newLis.forEach(function(li){ grid.appendChild(li); });
+        }
+        setTimeout(function(){
+            newLis.forEach(function(li){ li.classList.add('vl-visible'); });
+        }, 50);
+    }
+
+    function fetchFeed(isPolling) {
+        var url = API + '?limit=50';
+        if (currentFilter !== 'all') url += '&categoria=' + encodeURIComponent(currentFilter);
+        if (isPolling && lastSeenIso) url += '&since=' + encodeURIComponent(lastSeenIso);
+        fetch(url)
+            .then(function(r){ return r.json(); })
+            .then(function(data){
+                if (!data || !data.ok) return;
+                renderList(data.ocurrencias || [], isPolling);
+            })
+            .catch(function(e){ console.warn('[VLFeed] error:', e); });
+    }
+
+    function resetAndFetch() {
+        seenIds = {};
+        lastSeenIso = null;
+        var grid = document.getElementById('portfolio-grid');
+        if (grid) grid.innerHTML = '<li id="vl-empty-state" class="span12" style="text-align:center;padding:40px 0;color:#999;">Cargando ocurrencias...</li>';
+        fetchFeed(false);
+    }
+
+    function initFilters() {
+        var filters = document.querySelectorAll('#vl-filters .filter');
+        filters.forEach(function(f){
+            f.addEventListener('click', function(ev){
+                ev.preventDefault();
+                filters.forEach(function(x){ x.classList.remove('active'); });
+                f.classList.add('active');
+                currentFilter = f.getAttribute('data-filter');
+                resetAndFetch();
+            });
+        });
+    }
+
+    function init() {
+        initFilters();
+        fetchFeed(false);
+        pollTimer = setInterval(function(){ fetchFeed(true); }, POLL_MS);
+    }
+
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', init);
+    } else {
+        init();
+    }
+})();
+</script>
+
+</body>
+</html>
