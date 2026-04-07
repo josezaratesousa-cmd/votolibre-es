@@ -384,6 +384,41 @@ img { display: block; max-width: 100%; }
     .vl-share-btn { font-size: 0.65rem; padding: 9px 2px; }
     .vl-share-btn svg { width: 14px; height: 14px; }
 }
+/* ── Profile Modal ── */
+.vl-author-clickable { cursor: pointer; transition: opacity 0.15s; }
+.vl-author-clickable:hover { opacity: 0.75; }
+.vl-profile-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1001; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
+.vl-profile-modal.open { display: flex; }
+.vl-profile-card { background: var(--bg2); border-radius: 16px; max-width: 560px; width: 100%; max-height: 90vh; overflow-y: auto; border: 1px solid var(--border); box-shadow: 0 12px 48px rgba(0,0,0,0.6); }
+.vl-profile-header { display: flex; align-items: center; gap: 14px; padding: 22px 22px 18px; border-bottom: 1px solid var(--border); }
+.vl-profile-avatar { width: 64px; height: 64px; border-radius: 50%; background: var(--bg3); background-size: cover; background-position: center; flex-shrink: 0; display: flex; align-items: center; justify-content: center; color: var(--vl); font-size: 1.6rem; font-weight: 800; border: 2px solid var(--vl); }
+.vl-profile-info { flex: 1; min-width: 0; }
+.vl-profile-name { font-size: 1.15rem; font-weight: 800; color: var(--text); line-height: 1.2; }
+.vl-profile-meta { font-size: 0.72rem; color: var(--text2); margin-top: 4px; }
+.vl-profile-close { background: rgba(255,255,255,0.95); color: #0d0d0d; border: none; border-radius: 50%; width: 38px; height: 38px; min-width: 38px; font-size: 1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.vl-profile-stats { padding: 18px 22px; text-align: center; border-bottom: 1px solid var(--border); }
+.vl-profile-total { display: flex; flex-direction: column; gap: 4px; }
+.vl-profile-total span { font-size: 2.2rem; font-weight: 800; color: var(--vl); line-height: 1; }
+.vl-profile-total label { font-size: 0.72rem; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+.vl-profile-section { padding: 18px 22px; border-bottom: 1px solid var(--border); }
+.vl-profile-section:last-child { border-bottom: none; }
+.vl-profile-section h3 { margin: 0 0 14px; font-size: 0.78rem; font-weight: 700; color: var(--text2); text-transform: uppercase; letter-spacing: 0.5px; }
+.vl-bar-chart { display: flex; flex-direction: column; gap: 10px; }
+.vl-bar-row { display: flex; align-items: center; gap: 10px; }
+.vl-bar-label { width: 90px; font-size: 0.74rem; color: var(--text); display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
+.vl-bar-track { flex: 1; height: 22px; background: var(--bg3); border-radius: 11px; overflow: hidden; position: relative; }
+.vl-bar-fill { height: 100%; border-radius: 11px; display: flex; align-items: center; justify-content: flex-end; padding-right: 8px; color: white; font-size: 0.7rem; font-weight: 800; min-width: 28px; transition: width 0.6s ease; }
+.vl-bar-fill.empty { background: var(--bg3); color: var(--text3); justify-content: center; padding-right: 0; }
+.vl-carousel { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 8px; scroll-snap-type: x mandatory; -webkit-overflow-scrolling: touch; }
+.vl-carousel::-webkit-scrollbar { height: 6px; }
+.vl-carousel::-webkit-scrollbar-track { background: var(--bg); border-radius: 3px; }
+.vl-carousel::-webkit-scrollbar-thumb { background: var(--vl); border-radius: 3px; }
+.vl-carousel-item { flex-shrink: 0; width: 130px; height: 130px; border-radius: 10px; overflow: hidden; cursor: pointer; position: relative; scroll-snap-align: start; background: var(--bg3); border: 1px solid var(--border); }
+.vl-carousel-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.3s; }
+.vl-carousel-item:hover img { transform: scale(1.06); }
+.vl-carousel-item .vl-cat-pill { position: absolute; top: 6px; left: 6px; font-size: 0.55rem; padding: 2px 6px; border-radius: 8px; color: white; font-weight: 800; }
+.vl-carousel-empty { color: var(--text3); font-size: 0.78rem; padding: 16px 0; text-align: center; width: 100%; }
+
 </style>
 </head>
 <body>
@@ -452,6 +487,30 @@ img { display: block; max-width: 100%; }
 
 <!-- Toast -->
 <div class="vl-toast" id="vl-toast">Link copiado</div>
+<div class="vl-profile-modal" id="vl-profile-modal">
+    <div class="vl-profile-card">
+        <div class="vl-profile-header">
+            <div class="vl-profile-avatar" id="vl-profile-avatar"></div>
+            <div class="vl-profile-info">
+                <div class="vl-profile-name" id="vl-profile-name">Cargando...</div>
+                <div class="vl-profile-meta" id="vl-profile-meta"></div>
+            </div>
+            <button class="vl-profile-close" onclick="VLFeed.closeProfile()" aria-label="Cerrar">✕</button>
+        </div>
+        <div class="vl-profile-stats">
+            <div class="vl-profile-total"><span id="vl-profile-total">0</span><label>Ocurrencias reportadas</label></div>
+        </div>
+        <div class="vl-profile-section">
+            <h3>Por categoría</h3>
+            <div class="vl-bar-chart" id="vl-bar-chart"></div>
+        </div>
+        <div class="vl-profile-section">
+            <h3>Últimas ocurrencias</h3>
+            <div class="vl-carousel" id="vl-profile-carousel"></div>
+        </div>
+    </div>
+</div>
+
 
 <script>
 window.VLFeed = (function(){
@@ -534,8 +593,8 @@ window.VLFeed = (function(){
         return '' +
         '<article class="vl-card ' + (isHighlight ? 'vl-highlight' : '') + '" data-id="' + o.id + '" data-cat="' + o.categoria + '">' +
             '<div class="vl-card-header">' +
-                (o.selfie_path ? ('<div class="vl-avatar vl-avatar-photo" style="background-image:url(\'' + o.selfie_path.replace(/'/g,"%27") + '\')"></div>') : ('<div class="vl-avatar">' + escapeHtml(getInitial(o.alias)) + '</div>')) +
-                '<div class="vl-author">' +
+                (o.selfie_path ? ('<div class="vl-avatar vl-avatar-photo" ' + (o.observer_dni ? ('data-dni="' + o.observer_dni + '" onclick="VLFeed.openProfile(this.dataset.dni)"') : '') + ' style="background-image:url(\'' + o.selfie_path.replace(/'/g,"%27") + '\')"></div>') : ('<div class="vl-avatar"' + (o.observer_dni ? ' data-dni="' + o.observer_dni + '" onclick="VLFeed.openProfile(this.dataset.dni)" style="cursor:pointer;"' : '') + '>' + escapeHtml(getInitial(o.alias)) + '</div>')) +
+                '<div class="vl-author' + (o.observer_dni ? ' vl-author-clickable' : '') + '"' + (o.observer_dni ? ' data-dni="' + o.observer_dni + '" onclick="VLFeed.openProfile(this.dataset.dni)"' : '') + '>' +
                     '<div class="vl-author-name">' + escapeHtml(o.alias) + '</div>' +
                     '<div class="vl-author-meta">' + relativeTime(o.created_at) + '</div>' +
                 '</div>' +
@@ -812,6 +871,78 @@ window.VLFeed = (function(){
         document.getElementById('vl-lightbox')?.classList.remove('open');
     }
 
+    var CAT_COLORS = { material: "#3b82f6", conflicto: "#ef4444", personero: "#8b5cf6", irregularidad: "#f59e0b", otro: "#6b7280" };
+    var CAT_LABELS = { material: "Material", conflicto: "Conflicto", personero: "Personero", irregularidad: "Irregular.", otro: "Otro" };
+    var CAT_ICONS = { material: "📦", conflicto: "⚠️", personero: "👤", irregularidad: "🚨", otro: "📌" };
+
+    function openProfile(dni) {
+        if (!dni) return;
+        var modal = document.getElementById("vl-profile-modal");
+        if (!modal) return;
+        document.getElementById("vl-profile-name").textContent = "Cargando...";
+        document.getElementById("vl-profile-meta").textContent = "";
+        document.getElementById("vl-profile-total").textContent = "0";
+        document.getElementById("vl-bar-chart").innerHTML = "";
+        document.getElementById("vl-profile-carousel").innerHTML = "";
+        modal.classList.add("open");
+        fetch("https://votolibre.info/app/api/observer-profile.php?dni=" + encodeURIComponent(dni))
+            .then(function(r) { return r.json(); })
+            .then(function(d) {
+                if (!d.ok) { document.getElementById("vl-profile-name").textContent = "Error: " + (d.error || "no encontrado"); return; }
+                renderProfile(d);
+            })
+            .catch(function(e) { document.getElementById("vl-profile-name").textContent = "Error de conexión"; });
+    }
+
+    function renderProfile(d) {
+        var obs = d.observer || {};
+        var alias = obs.alias || "Observador";
+        document.getElementById("vl-profile-name").textContent = alias;
+        var registered = obs.registered_at ? new Date(obs.registered_at).toLocaleDateString("es-PE", {year: "numeric", month: "long", day: "numeric"}) : "";
+        document.getElementById("vl-profile-meta").textContent = registered ? ("Registrado: " + registered) : "";
+        var avEl = document.getElementById("vl-profile-avatar");
+        if (obs.selfie_path) {
+            avEl.style.backgroundImage = "url(" + JSON.stringify(obs.selfie_path) + ")";
+            avEl.textContent = "";
+        } else {
+            avEl.style.backgroundImage = "";
+            avEl.textContent = (alias.charAt(0) || "?").toUpperCase();
+        }
+        document.getElementById("vl-profile-total").textContent = String(d.total || 0);
+        var counts = d.counts || {};
+        var maxCount = Math.max(1, Math.max.apply(null, Object.values(counts)));
+        var bars = "";
+        var cats = ["material","conflicto","personero","irregularidad","otro"];
+        cats.forEach(function(cat) {
+            var n = counts[cat] || 0;
+            var pct = Math.max(2, Math.round((n / maxCount) * 100));
+            var emptyClass = n === 0 ? " empty" : "";
+            var bgStyle = n === 0 ? "" : "background:" + CAT_COLORS[cat] + ";";
+            bars += "<div class=\"vl-bar-row\"><span class=\"vl-bar-label\">" + CAT_ICONS[cat] + " " + CAT_LABELS[cat] + "</span><div class=\"vl-bar-track\"><div class=\"vl-bar-fill" + emptyClass + "\" style=\"width:" + pct + "%;" + bgStyle + "\">" + n + "</div></div></div>";
+        });
+        document.getElementById("vl-bar-chart").innerHTML = bars;
+        var carousel = "";
+        var latest = d.latest || [];
+        if (latest.length === 0) {
+            carousel = "<div class=\"vl-carousel-empty\">Sin ocurrencias todavía</div>";
+        } else {
+            latest.forEach(function(item) {
+                var thumb = item.foto_path_thumb || item.foto_path;
+                if (!thumb) return;
+                var fullSrc = stampingToProxy(item.stamping_image_url) || item.foto_path;
+                var title = alias + " #" + item.id;
+                var color = CAT_COLORS[item.categoria] || "#6b7280";
+                var icon = CAT_ICONS[item.categoria] || "📌";
+                carousel += "<div class=\"vl-carousel-item\" data-full=\"" + escapeHtml(fullSrc) + "\" data-title=\"" + escapeHtml(title) + "\" onclick=\"VLFeed.openLightbox(this.dataset.full, this.dataset.title)\"><img loading=\"lazy\" src=\"" + escapeHtml(thumb) + "\" alt=\"\"><span class=\"vl-cat-pill\" style=\"background:" + color + ";\">" + icon + "</span></div>";
+            });
+        }
+        document.getElementById("vl-profile-carousel").innerHTML = carousel;
+    }
+
+    function closeProfile() {
+        document.getElementById("vl-profile-modal")?.classList.remove("open");
+    }
+
     function init() {
         try { var saved = localStorage.getItem('vl-theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); updateThemeIcon(saved || 'dark'); } catch(e){}
         initFilters();
@@ -821,9 +952,12 @@ window.VLFeed = (function(){
         document.getElementById('vl-lightbox')?.addEventListener('click', function(e){
             if (e.target.id === 'vl-lightbox') closeLightbox();
         });
+        document.getElementById('vl-profile-modal')?.addEventListener('click', function(e){
+            if (e.target.id === 'vl-profile-modal') closeProfile();
+        });
         // ESC closes lightbox
         document.addEventListener('keydown', function(e){
-            if (e.key === 'Escape') closeLightbox();
+            if (e.key === 'Escape') { closeLightbox(); closeProfile(); }
         });
     }
 
@@ -839,6 +973,8 @@ window.VLFeed = (function(){
         shareWhatsApp: shareWhatsApp,
         copyLink: copyLink,
         openLightbox: openLightbox,
+        openProfile: openProfile,
+        closeProfile: closeProfile,
         downloadLightboxImage: downloadLightboxImage,
         openMap: openMap,
         openStamp: openStamp,
