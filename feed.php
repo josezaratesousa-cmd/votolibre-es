@@ -774,7 +774,8 @@ window.VLFeed = (function(){
         if (badge) badge.textContent = "cargando...";
         if (sizeEl) sizeEl.textContent = "";
         img.classList.remove("loaded");
-        img.src = "";
+        img.onload = null; img.onerror = null; img.removeAttribute("src");
+
         if (loader) loader.style.display = "flex";
         lb.classList.add("open");
         img.onload = function() {
@@ -786,7 +787,7 @@ window.VLFeed = (function(){
         fetch(src).then(function(r) { return r.blob(); }).then(function(b) {
             if (sizeEl) { var kb = b.size / 1024; sizeEl.textContent = kb >= 1024 ? (kb/1024).toFixed(1) + " MB" : Math.round(kb) + " KB"; }
             img.src = URL.createObjectURL(b);
-        }).catch(function() { img.src = src; });
+        }).catch(function() { if (loader) loader.innerHTML = "<div style=\"color:#ef4444;\">Error al cargar la imagen</div>"; });
     }
 
     function downloadLightboxImage() {
