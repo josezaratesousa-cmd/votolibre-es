@@ -476,6 +476,13 @@ window.VLFeed = (function(){
         otro:          { label: 'Curiosidad',    icon: '💬' }
     };
 
+    function stampingToProxy(url) {
+        if (!url) return null;
+        var m = url.match(/api\.stamping\.io\/exec\/[a-f0-9]+\/([a-f0-9]{40})\.jpg/);
+        if (m) return "https://votolibre.info/app/api/stamp-proxy.php?id=" + m[1];
+        return url;
+    }
+
     function escapeHtml(s) {
         if (!s) return '';
         return String(s).replace(/[&<>"']/g, function(c){
@@ -519,7 +526,7 @@ window.VLFeed = (function(){
         var photoHtml = '';
         if (o.foto_path) {
             var thumbSrc = o.foto_path_thumb || o.foto_path;
-            var fullSrc = o.stamping_image_url || o.foto_path;
+            var fullSrc = stampingToProxy(o.stamping_image_url) || o.foto_path;
             var titleAttr = escapeHtml((o.alias || 'Observador') + ' #' + o.id);
             photoHtml = '<div class="vl-card-photo vl-loading-photo" data-full="' + escapeHtml(fullSrc) + '" data-title="' + titleAttr + '" onclick="VLFeed.openLightbox(this.dataset.full, this.dataset.title)"><div class="vl-shimmer"></div><img loading="lazy" src="' + escapeHtml(thumbSrc) + '" alt="Foto de la ocurrencia" onload="this.parentElement.classList.add(&quot;loaded&quot;)" onerror="this.parentElement.classList.add(&quot;error&quot;)"></div>';
         }
