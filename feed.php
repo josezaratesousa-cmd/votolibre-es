@@ -490,7 +490,7 @@ window.VLFeed = (function(){
 
         var photoHtml = '';
         if (o.foto_path) {
-            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" onclick="VLFeed.openLightbox('\' + escapeHtml(o.foto_path) + '\')" role="img" aria-label="Foto de la ocurrencia"></div>';
+            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" data-foto="' + escapeHtml(o.foto_path) + '" onclick="VLFeed.openLightbox(this.dataset.foto)" role="img" aria-label="Foto de la ocurrencia"></div>';
         }
 
         return '' +
