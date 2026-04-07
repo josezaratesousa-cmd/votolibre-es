@@ -21,6 +21,8 @@ $highlightId = isset($_GET['id']) ? (int)$_GET['id'] : null;
 <meta name="twitter:card" content="summary_large_image">
 <link rel="icon" href="https://votolibre.info/img/logo.png">
 <style>
+:root { --header-bg: rgba(13,13,13,0.92); }
+:root[data-theme="light"] { --header-bg: rgba(255,255,255,0.92); --bg: #f5f5f7; --bg2: #ffffff; --bg3: #ececef; --border: #d1d1d6; --text: #1c1c1e; --text2: #6e6e73; --text3: #9a9aa0; }
 :root {
     --vl: #FECE1A;
     --vl-dark: #d4a500;
@@ -53,7 +55,7 @@ img { display: block; max-width: 100%; }
     position: sticky;
     top: 0;
     z-index: 100;
-    background: rgba(13,13,13,0.92);
+    background: var(--header-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -107,12 +109,15 @@ img { display: block; max-width: 100%; }
     50% { opacity: 0.5; transform: scale(1.2); }
 }
 
+#vl-theme-toggle { width: 36px; height: 36px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; flex-shrink: 0; padding: 0; } #vl-theme-toggle:hover { background: var(--vl); color: #0d0d0d; border-color: var(--vl); transform: rotate(20deg); }
+.vl-header-inner { gap: 10px; }
+
 /* ── Filters ── */
 .vl-filters {
     position: sticky;
     top: calc(var(--safe-t) + 70px);
     z-index: 99;
-    background: rgba(13,13,13,0.92);
+    background: var(--header-bg);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-bottom: 1px solid var(--border);
@@ -145,26 +150,23 @@ img { display: block; max-width: 100%; }
 }
 .vl-chip:hover { background: var(--border); }
 .vl-chip.active {
-    background: transparent;
+    background: var(--vl);
     color: #0d0d0d;
     border-color: var(--vl);
+    font-weight: 700;
 }
 
 /* ── Feed container ── */
-.vl-feed {
-    max-width: 680px;
-    margin: 0 auto;
-    padding: 16px;
-    padding-bottom: calc(var(--safe-b) + 40px);
-}
-.vl-empty {
+.vl-feed { max-width: 1600px; margin: 0 auto; padding: 16px 24px calc(var(--safe-b) + 40px); display: grid; grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); gap: 18px; align-content: start; }
+@media (max-width: 760px) { .vl-feed { padding: 12px; gap: 12px; } }
+.vl-empty { grid-column: 1 / -1;
     text-align: center;
     padding: 60px 20px;
     color: var(--text3);
     font-size: 0.9rem;
 }
 .vl-empty svg { width: 52px; height: 52px; margin-bottom: 12px; opacity: 0.4; }
-.vl-loading {
+.vl-loading { grid-column: 1 / -1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -184,7 +186,7 @@ img { display: block; max-width: 100%; }
     background: var(--bg2);
     border: 1px solid var(--border);
     border-radius: 16px;
-    margin-bottom: 14px;
+    margin: 0;
     overflow: hidden;
     opacity: 0;
     transform: translateY(-16px);
@@ -250,6 +252,13 @@ img { display: block; max-width: 100%; }
 .vl-cat-personero { background: rgba(139,92,246,0.15); color: #a78bfa; }
 .vl-cat-irregularidad { background: rgba(245,158,11,0.15); color: #fbbf24; }
 .vl-cat-otro { background: rgba(107,114,128,0.15); color: #9ca3af; }
+:root[data-theme="light"] .vl-cat-material{color:#1e40af}
+:root[data-theme="light"] .vl-cat-conflicto{color:#991b1b}
+:root[data-theme="light"] .vl-cat-personero{color:#5b21b6}
+:root[data-theme="light"] .vl-cat-irregularidad{color:#92400e}
+:root[data-theme="light"] .vl-cat-otro{color:#374151}
+:root[data-theme="light"] .vl-card-text{color:#1c1c1e}
+:root[data-theme="light"] .vl-card-coords{background:#fafafc}
 
 .vl-card-text {
     padding: 4px 16px 12px;
@@ -260,6 +269,7 @@ img { display: block; max-width: 100%; }
     word-wrap: break-word;
 }
 .vl-card-photo { width: 100%; height: 340px; background-size: cover; background-position: center; background-repeat: no-repeat; background-color: var(--bg3); cursor: pointer; display: block; }
+.vl-card-coords { padding: 8px 16px; font-size: 0.72rem; color: var(--text2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; cursor: pointer; transition: color 0.15s; background: var(--bg); border-top: 1px solid var(--border); } .vl-card-coords:hover { color: var(--vl); }
 .vl-card-location {
     display: flex;
     align-items: center;
@@ -384,12 +394,13 @@ img { display: block; max-width: 100%; }
     <div class="vl-header-inner">
         <div class="vl-logo"><img src="https://votolibre.info/img/logo.png" alt="VotoLibre"></div>
         <div class="vl-header-text">
-            <div class="vl-header-title">VotoLibre</div>
+            <div class="vl-header-title">Ocurrencias</div>
             <div class="vl-header-sub">
                 <span class="vl-live-dot"></span>
                 <span id="vl-status">Ocurrencias en vivo</span>
             </div>
         </div>
+        <button id="vl-theme-toggle" onclick="VLFeed.toggleTheme()" title="Tema"><svg id="vl-theme-icon" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/></svg></button>
     </div>
 </header>
 
@@ -504,7 +515,7 @@ window.VLFeed = (function(){
                 '<div class="vl-header-right">' + '<span class="vl-cat-badge vl-cat-' + o.categoria + '">' + cat.icon + ' ' + cat.label + '</span>' + ((o.geo_lat != null && o.geo_lng != null) ? ('<button class="vl-geo-btn" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>') : '') + '</div>' +
             '</div>' +
             '<div class="vl-card-text">' + escapeHtml(o.texto) + '</div>' +
-            photoHtml +
+            photoHtml + ((o.geo_lat != null && o.geo_lng != null) ? ('<div class="vl-card-coords" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa">📍 ' + o.geo_lat.toFixed(6) + ', ' + o.geo_lng.toFixed(6) + '</div>') : '') +
             '<div class="vl-card-location">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
                 '<span>' + escapeHtml(mesaTxt) + ubic + '</span>' +
@@ -718,6 +729,8 @@ window.VLFeed = (function(){
         setTimeout(function(){ t.classList.remove('show'); }, 2400);
     }
 
+    function updateThemeIcon(t) { var i=document.getElementById('vl-theme-icon'); if(!i) return; i.innerHTML = (t === 'light') ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>' : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>'; }
+    function toggleTheme() { var cur = document.documentElement.getAttribute('data-theme'); var next = cur === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', next); try { localStorage.setItem('vl-theme', next); } catch(e){} updateThemeIcon(next); }
     function openMap(lat, lng) {
         if (lat == null || lng == null) return;
         var url = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=17';
@@ -737,6 +750,7 @@ window.VLFeed = (function(){
     }
 
     function init() {
+        try { var saved = localStorage.getItem('vl-theme'); if (saved) document.documentElement.setAttribute('data-theme', saved); updateThemeIcon(saved || 'dark'); } catch(e){}
         initFilters();
         fetchFeed(false);
         state.pollTimer = setInterval(function(){ fetchFeed(true); }, POLL_MS);
@@ -763,6 +777,7 @@ window.VLFeed = (function(){
         copyLink: copyLink,
         openLightbox: openLightbox,
         openMap: openMap,
+        toggleTheme: toggleTheme,
         closeLightbox: closeLightbox
     };
 })();
