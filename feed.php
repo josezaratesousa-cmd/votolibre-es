@@ -326,7 +326,7 @@ img { display: block; max-width: 100%; }
 .vl-share-btn.copied { color: var(--success) !important; }
 
 /* ── Photo lightbox ── */
-.vl-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; cursor: default; }
+.vl-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1100; display: none; flex-direction: column; cursor: default; }
 .vl-lightbox.open { display: flex; }
 .vl-lightbox-header { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--safe-t) + 14px) 16px 12px; background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 12px; }
 .vl-lightbox-titlewrap { flex: 1; min-width: 0; }
@@ -386,6 +386,8 @@ img { display: block; max-width: 100%; }
 }
 /* ── Profile Modal ── */
 .vl-author-clickable { cursor: pointer; transition: opacity 0.15s; }
+.vl-avatar[data-dni], .vl-avatar-photo[data-dni] { cursor: pointer; transition: transform 0.15s, opacity 0.15s; }
+.vl-avatar[data-dni]:hover, .vl-avatar-photo[data-dni]:hover { transform: scale(1.05); opacity: 0.9; }
 .vl-author-clickable:hover { opacity: 0.75; }
 .vl-profile-modal { position: fixed; inset: 0; background: rgba(0,0,0,0.92); z-index: 1001; display: none; align-items: center; justify-content: center; padding: 20px; overflow-y: auto; }
 .vl-profile-modal.open { display: flex; }
