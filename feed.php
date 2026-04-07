@@ -70,14 +70,14 @@ img { display: block; max-width: 100%; }
     width: 42px;
     height: 42px;
     border-radius: 10px;
-    background: var(--vl);
+    background: transparent;
     display: flex;
     align-items: center;
     justify-content: center;
     flex-shrink: 0;
-    box-shadow: 0 2px 12px rgba(254,206,26,0.25);
+    box-shadow: none;
 }
-.vl-logo svg { width: 26px; height: 26px; }
+.vl-logo img { width: 100%; height: 100%; object-fit: contain; } .vl-logo svg { width: 26px; height: 26px; }
 .vl-header-text { flex: 1; min-width: 0; }
 .vl-header-title {
     font-size: 1.15rem;
@@ -145,7 +145,7 @@ img { display: block; max-width: 100%; }
 }
 .vl-chip:hover { background: var(--border); }
 .vl-chip.active {
-    background: var(--vl);
+    background: transparent;
     color: #0d0d0d;
     border-color: var(--vl);
 }
@@ -204,6 +204,7 @@ img { display: block; max-width: 100%; }
     gap: 10px;
     padding: 14px 16px 10px;
 }
+.vl-avatar-photo { background-size: cover !important; background-position: center !important; color: transparent !important; background-image: var(--selfie-url); }
 .vl-avatar {
     width: 42px;
     height: 42px;
@@ -228,6 +229,10 @@ img { display: block; max-width: 100%; }
     color: var(--text3);
     margin-top: 2px;
 }
+.vl-header-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.vl-geo-btn { width: 34px; height: 34px; border-radius: 50%; background: var(--bg3); border: 1px solid var(--border); color: var(--text2); cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; padding: 0; flex-shrink: 0; }
+.vl-geo-btn:hover { background: var(--vl); color: #0d0d0d; border-color: var(--vl); transform: scale(1.05); }
+.vl-geo-btn svg { width: 16px; height: 16px; }
 .vl-cat-badge {
     display: inline-flex;
     align-items: center;
@@ -254,13 +259,7 @@ img { display: block; max-width: 100%; }
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-.vl-card-photo {
-    width: 100%;
-    max-height: 500px;
-    object-fit: cover;
-    background: var(--bg);
-    cursor: pointer;
-}
+.vl-card-photo { width: 100%; height: 340px; background-size: cover; background-position: center; background-repeat: no-repeat; background-color: var(--bg3); cursor: pointer; display: block; }
 .vl-card-location {
     display: flex;
     align-items: center;
@@ -343,7 +342,7 @@ img { display: block; max-width: 100%; }
     bottom: calc(var(--safe-b) + 24px);
     left: 50%;
     transform: translateX(-50%) translateY(16px);
-    background: var(--vl);
+    background: transparent;
     color: #0d0d0d;
     padding: 10px 20px;
     border-radius: 24px;
@@ -383,12 +382,7 @@ img { display: block; max-width: 100%; }
 <!-- Header -->
 <header class="vl-header">
     <div class="vl-header-inner">
-        <div class="vl-logo">
-            <svg viewBox="0 0 24 24" fill="none" stroke="#0d0d0d" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M9 11l3 3L22 4"/>
-                <path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/>
-            </svg>
-        </div>
+        <div class="vl-logo"><img src="https://votolibre.info/img/logo.png" alt="VotoLibre"></div>
         <div class="vl-header-text">
             <div class="vl-header-title">VotoLibre</div>
             <div class="vl-header-sub">
@@ -496,18 +490,18 @@ window.VLFeed = (function(){
 
         var photoHtml = '';
         if (o.foto_path) {
-            photoHtml = '<img class="vl-card-photo" src="' + escapeHtml(o.foto_path) + '" alt="Foto de la ocurrencia" loading="lazy" onclick="VLFeed.openLightbox(\'' + escapeHtml(o.foto_path) + '\')">';
+            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" onclick="VLFeed.openLightbox('\' + escapeHtml(o.foto_path) + '\')" role="img" aria-label="Foto de la ocurrencia"></div>';
         }
 
         return '' +
         '<article class="vl-card ' + (isHighlight ? 'vl-highlight' : '') + '" data-id="' + o.id + '" data-cat="' + o.categoria + '">' +
             '<div class="vl-card-header">' +
-                '<div class="vl-avatar">' + escapeHtml(getInitial(o.alias)) + '</div>' +
+                (o.selfie_path ? ('<div class="vl-avatar vl-avatar-photo" style="background-image:url(\'' + o.selfie_path.replace(/'/g,"%27") + '\')"></div>') : ('<div class="vl-avatar">' + escapeHtml(getInitial(o.alias)) + '</div>')) +
                 '<div class="vl-author">' +
                     '<div class="vl-author-name">' + escapeHtml(o.alias) + '</div>' +
                     '<div class="vl-author-meta">' + relativeTime(o.created_at) + '</div>' +
                 '</div>' +
-                '<span class="vl-cat-badge vl-cat-' + o.categoria + '">' + cat.icon + ' ' + cat.label + '</span>' +
+                '<div class="vl-header-right">' + '<span class="vl-cat-badge vl-cat-' + o.categoria + '">' + cat.icon + ' ' + cat.label + '</span>' + ((o.geo_lat != null && o.geo_lng != null) ? ('<button class="vl-geo-btn" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>') : '') + '</div>' +
             '</div>' +
             '<div class="vl-card-text">' + escapeHtml(o.texto) + '</div>' +
             photoHtml +
@@ -724,6 +718,12 @@ window.VLFeed = (function(){
         setTimeout(function(){ t.classList.remove('show'); }, 2400);
     }
 
+    function openMap(lat, lng) {
+        if (lat == null || lng == null) return;
+        var url = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=17';
+        window.open(url, '_blank', 'noopener,noreferrer');
+    }
+
     function openLightbox(src) {
         var lb = document.getElementById('vl-lightbox');
         var img = document.getElementById('vl-lightbox-img');
@@ -762,6 +762,7 @@ window.VLFeed = (function(){
         shareWhatsApp: shareWhatsApp,
         copyLink: copyLink,
         openLightbox: openLightbox,
+        openMap: openMap,
         closeLightbox: closeLightbox
     };
 })();
