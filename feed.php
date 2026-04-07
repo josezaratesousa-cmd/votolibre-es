@@ -268,7 +268,13 @@ img { display: block; max-width: 100%; }
     white-space: pre-wrap;
     word-wrap: break-word;
 }
-.vl-card-photo { width: 100%; height: 340px; background-size: cover; background-position: center; background-repeat: no-repeat; background-color: var(--bg3); cursor: pointer; display: block; }
+.vl-card-photo { position: relative; width: 100%; height: 340px; background-color: var(--bg3); cursor: pointer; display: block; overflow: hidden; }
+.vl-card-photo img { width: 100%; height: 100%; object-fit: cover; opacity: 0; transition: opacity 0.4s ease; display: block; }
+.vl-card-photo.loaded img { opacity: 1; }
+.vl-card-photo.loaded .vl-shimmer { display: none; }
+.vl-shimmer { position: absolute; inset: 0; background: linear-gradient(90deg, var(--bg3) 0%, var(--bg2) 50%, var(--bg3) 100%); background-size: 200% 100%; animation: vl-shimmer 1.4s ease-in-out infinite; }
+@keyframes vl-shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+.vl-card-photo.error .vl-shimmer { animation: none; background: var(--bg3); }
 .vl-stamp-row { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; color: #22c55e; background: rgba(34,197,94,0.06); border-top: 1px solid var(--border); cursor: pointer; transition: background 0.15s; font-weight: 600; }
 .vl-stamp-row:hover { background: rgba(34,197,94,0.12); }
 .vl-stamp-row span:first-of-type { flex: 1; }
@@ -320,36 +326,25 @@ img { display: block; max-width: 100%; }
 .vl-share-btn.copied { color: var(--success) !important; }
 
 /* ── Photo lightbox ── */
-.vl-lightbox {
-    position: fixed;
-    inset: 0;
-    background: rgba(0,0,0,0.95);
-    z-index: 1000;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    cursor: zoom-out;
-}
+.vl-lightbox { position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 1000; display: none; flex-direction: column; cursor: default; }
 .vl-lightbox.open { display: flex; }
-.vl-lightbox img {
-    max-width: 100%;
-    max-height: 95vh;
-    border-radius: 8px;
-}
-.vl-lightbox-close {
-    position: absolute;
-    top: calc(var(--safe-t) + 16px);
-    right: 16px;
-    width: 40px; height: 40px;
-    background: rgba(255,255,255,0.12);
-    border: none;
-    border-radius: 50%;
-    color: white;
-    font-size: 1.3rem;
-    cursor: pointer;
-}
-
+.vl-lightbox-header { display: flex; align-items: center; justify-content: space-between; padding: calc(var(--safe-t) + 14px) 16px 12px; background: rgba(0,0,0,0.6); border-bottom: 1px solid rgba(255,255,255,0.08); gap: 12px; }
+.vl-lightbox-titlewrap { flex: 1; min-width: 0; }
+.vl-lightbox-title { color: white; font-size: 0.95rem; font-weight: 700; line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.vl-lightbox-meta { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+.vl-lightbox-badge { background: var(--vl); color: #0d0d0d; font-size: 0.62rem; font-weight: 800; padding: 2px 7px; border-radius: 8px; font-family: ui-monospace, Menlo, monospace; }
+.vl-lightbox-size { color: rgba(255,255,255,0.65); font-size: 0.66rem; font-weight: 600; }
+.vl-lightbox-close { background: rgba(255,255,255,0.95); color: #0d0d0d; border: none; border-radius: 50%; width: 42px; height: 42px; min-width: 42px; font-size: 1.1rem; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 8px rgba(0,0,0,0.4); }
+.vl-lightbox-body { flex: 1; display: flex; align-items: center; justify-content: center; padding: 16px; position: relative; overflow: hidden; }
+.vl-lightbox-img { max-width: 100%; max-height: 100%; opacity: 0; transition: opacity 0.4s ease; border-radius: 8px; box-shadow: 0 4px 24px rgba(0,0,0,0.5); }
+.vl-lightbox-img.loaded { opacity: 1; }
+.vl-lightbox-loader { position: absolute; inset: 0; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; }
+.vl-lightbox-spinner { width: 40px; height: 40px; border: 3px solid rgba(255,255,255,0.15); border-top-color: var(--vl); border-radius: 50%; animation: vl-spin 0.9s linear infinite; }
+.vl-lightbox-loadtxt { color: rgba(255,255,255,0.7); font-size: 0.78rem; font-weight: 600; }
+@keyframes vl-spin { to { transform: rotate(360deg); } }
+.vl-lightbox-footer { padding: 14px 16px calc(var(--safe-b) + 16px); background: rgba(0,0,0,0.6); display: flex; gap: 10px; justify-content: center; }
+.vl-lightbox-action { background: var(--vl); color: #0d0d0d; border: none; border-radius: 22px; padding: 0.7rem 1.4rem; font-weight: 700; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 0.45rem; font-family: inherit; }
+.vl-lightbox-action:active { transform: scale(0.96); }
 /* ── Toast ── */
 .vl-toast {
     position: fixed;
@@ -433,8 +428,26 @@ img { display: block; max-width: 100%; }
 
 <!-- Lightbox -->
 <div class="vl-lightbox" id="vl-lightbox">
-    <button class="vl-lightbox-close" onclick="VLFeed.closeLightbox()">×</button>
-    <img id="vl-lightbox-img" alt="">
+    <div class="vl-lightbox-header">
+        <div class="vl-lightbox-titlewrap">
+            <div class="vl-lightbox-title" id="vl-lightbox-title">Foto</div>
+            <div class="vl-lightbox-meta">
+                <span class="vl-lightbox-badge" id="vl-lightbox-badge">cargando...</span>
+                <span class="vl-lightbox-size" id="vl-lightbox-size"></span>
+            </div>
+        </div>
+        <button class="vl-lightbox-close" onclick="VLFeed.closeLightbox()" aria-label="Cerrar">✕</button>
+    </div>
+    <div class="vl-lightbox-body">
+        <div class="vl-lightbox-loader" id="vl-lightbox-loader">
+            <div class="vl-lightbox-spinner"></div>
+            <div class="vl-lightbox-loadtxt">Descargando imagen...</div>
+        </div>
+        <img class="vl-lightbox-img" id="vl-lightbox-img" alt="">
+    </div>
+    <div class="vl-lightbox-footer">
+        <button class="vl-lightbox-action" onclick="VLFeed.downloadLightboxImage()"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>Descargar</button>
+    </div>
 </div>
 
 <!-- Toast -->
@@ -505,7 +518,10 @@ window.VLFeed = (function(){
 
         var photoHtml = '';
         if (o.foto_path) {
-            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" data-foto="' + escapeHtml(o.stamping_image_url || o.foto_path) + '" onclick="VLFeed.openLightbox(this.dataset.foto)" role="img" aria-label="Foto de la ocurrencia"></div>';
+            var thumbSrc = o.foto_path_thumb || o.foto_path;
+            var fullSrc = o.stamping_image_url || o.foto_path;
+            var titleAttr = escapeHtml((o.alias || 'Observador') + ' #' + o.id);
+            photoHtml = '<div class="vl-card-photo vl-loading-photo" data-full="' + escapeHtml(fullSrc) + '" data-title="' + titleAttr + '" onclick="VLFeed.openLightbox(this.dataset.full, this.dataset.title)"><div class="vl-shimmer"></div><img loading="lazy" src="' + escapeHtml(thumbSrc) + '" alt="Foto de la ocurrencia" onload="this.parentElement.classList.add(&quot;loaded&quot;)" onerror="this.parentElement.classList.add(&quot;error&quot;)"></div>';
         }
 
         return '' +
@@ -742,13 +758,47 @@ window.VLFeed = (function(){
         window.open(url, '_blank', 'noopener,noreferrer');
     }
 
-    function openLightbox(src) {
-        var lb = document.getElementById('vl-lightbox');
-        var img = document.getElementById('vl-lightbox-img');
+    var currentLightboxUrl = null;
+    var currentLightboxTitle = null;
+    function openLightbox(src, title) {
+        var lb = document.getElementById("vl-lightbox");
+        var img = document.getElementById("vl-lightbox-img");
+        var loader = document.getElementById("vl-lightbox-loader");
+        var titleEl = document.getElementById("vl-lightbox-title");
+        var badge = document.getElementById("vl-lightbox-badge");
+        var sizeEl = document.getElementById("vl-lightbox-size");
         if (!lb || !img) return;
-        img.src = src;
-        lb.classList.add('open');
+        currentLightboxUrl = src;
+        currentLightboxTitle = title || "votolibre";
+        if (titleEl) titleEl.textContent = title || "Foto";
+        if (badge) badge.textContent = "cargando...";
+        if (sizeEl) sizeEl.textContent = "";
+        img.classList.remove("loaded");
+        img.src = "";
+        if (loader) loader.style.display = "flex";
+        lb.classList.add("open");
+        img.onload = function() {
+            if (loader) loader.style.display = "none";
+            img.classList.add("loaded");
+            if (badge) { var mp = ((img.naturalWidth * img.naturalHeight) / 1000000).toFixed(1); badge.textContent = img.naturalWidth + "×" + img.naturalHeight + " (" + mp + " MP)"; }
+        };
+        img.onerror = function() { if (loader) loader.innerHTML = "<div style=\"color:#ef4444;\">Error al cargar la imagen</div>"; };
+        fetch(src).then(function(r) { return r.blob(); }).then(function(b) {
+            if (sizeEl) { var kb = b.size / 1024; sizeEl.textContent = kb >= 1024 ? (kb/1024).toFixed(1) + " MB" : Math.round(kb) + " KB"; }
+            img.src = URL.createObjectURL(b);
+        }).catch(function() { img.src = src; });
     }
+
+    function downloadLightboxImage() {
+        if (!currentLightboxUrl) return;
+        fetch(currentLightboxUrl).then(function(r) { return r.blob(); }).then(function(b) {
+            var a = document.createElement("a");
+            a.href = URL.createObjectURL(b);
+            a.download = (currentLightboxTitle || "votolibre") + ".jpg";
+            a.click();
+        }).catch(function() { alert("Error al descargar"); });
+    }
+
 
     function closeLightbox() {
         document.getElementById('vl-lightbox')?.classList.remove('open');
@@ -781,6 +831,7 @@ window.VLFeed = (function(){
         shareWhatsApp: shareWhatsApp,
         copyLink: copyLink,
         openLightbox: openLightbox,
+        downloadLightboxImage: downloadLightboxImage,
         openMap: openMap,
         openStamp: openStamp,
         toggleTheme: toggleTheme,
