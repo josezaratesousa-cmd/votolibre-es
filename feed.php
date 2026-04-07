@@ -269,6 +269,10 @@ img { display: block; max-width: 100%; }
     word-wrap: break-word;
 }
 .vl-card-photo { width: 100%; height: 340px; background-size: cover; background-position: center; background-repeat: no-repeat; background-color: var(--bg3); cursor: pointer; display: block; }
+.vl-stamp-row { display: flex; align-items: center; gap: 8px; padding: 10px 16px; font-size: 0.72rem; color: #22c55e; background: rgba(34,197,94,0.06); border-top: 1px solid var(--border); cursor: pointer; transition: background 0.15s; font-weight: 600; }
+.vl-stamp-row:hover { background: rgba(34,197,94,0.12); }
+.vl-stamp-row span:first-of-type { flex: 1; }
+.vl-stamp-arrow { color: var(--text3); font-size: 1rem; }
 .vl-card-coords { padding: 8px 16px; font-size: 0.72rem; color: var(--text2); font-family: ui-monospace, SFMono-Regular, Menlo, monospace; cursor: pointer; transition: color 0.15s; background: var(--bg); border-top: 1px solid var(--border); } .vl-card-coords:hover { color: var(--vl); }
 .vl-card-location {
     display: flex;
@@ -501,7 +505,7 @@ window.VLFeed = (function(){
 
         var photoHtml = '';
         if (o.foto_path) {
-            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" data-foto="' + escapeHtml(o.foto_path) + '" onclick="VLFeed.openLightbox(this.dataset.foto)" role="img" aria-label="Foto de la ocurrencia"></div>';
+            photoHtml = '<div class="vl-card-photo" style="background-image:url(&quot;' + o.foto_path.replace(/"/g,"%22") + '&quot;)" data-foto="' + escapeHtml(o.stamping_image_url || o.foto_path) + '" onclick="VLFeed.openLightbox(this.dataset.foto)" role="img" aria-label="Foto de la ocurrencia"></div>';
         }
 
         return '' +
@@ -515,7 +519,7 @@ window.VLFeed = (function(){
                 '<div class="vl-header-right">' + '<span class="vl-cat-badge vl-cat-' + o.categoria + '">' + cat.icon + ' ' + cat.label + '</span>' + ((o.geo_lat != null && o.geo_lng != null) ? ('<button class="vl-geo-btn" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg></button>') : '') + '</div>' +
             '</div>' +
             '<div class="vl-card-text">' + escapeHtml(o.texto) + '</div>' +
-            photoHtml + ((o.geo_lat != null && o.geo_lng != null) ? ('<div class="vl-card-coords" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa">📍 ' + o.geo_lat.toFixed(6) + ', ' + o.geo_lng.toFixed(6) + '</div>') : '') +
+            photoHtml + ((o.geo_lat != null && o.geo_lng != null) ? ('<div class="vl-card-coords" onclick="VLFeed.openMap(' + o.geo_lat + ',' + o.geo_lng + ')" title="Ver en mapa">📍 ' + o.geo_lat.toFixed(6) + ', ' + o.geo_lng.toFixed(6) + '</div>') : '') + (o.stamping_uri ? ('<div class="vl-stamp-row" onclick="VLFeed.openStamp(this.dataset.uri)" data-uri="' + o.stamping_uri + '"><svg viewBox="0 0 24 24" fill="none" stroke="#22c55e" stroke-width="2" width="14" height="14"><path d="M9 12l2 2 4-4"/><circle cx="12" cy="12" r="10"/></svg><span>Atestado en Blockchain</span><span class="vl-stamp-arrow">→</span></div>') : '') +
             '<div class="vl-card-location">' +
                 '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>' +
                 '<span>' + escapeHtml(mesaTxt) + ubic + '</span>' +
@@ -731,6 +735,7 @@ window.VLFeed = (function(){
 
     function updateThemeIcon(t) { var i=document.getElementById('vl-theme-icon'); if(!i) return; i.innerHTML = (t === 'light') ? '<path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>' : '<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"/>'; }
     function toggleTheme() { var cur = document.documentElement.getAttribute('data-theme'); var next = cur === 'light' ? 'dark' : 'light'; document.documentElement.setAttribute('data-theme', next); try { localStorage.setItem('vl-theme', next); } catch(e){} updateThemeIcon(next); }
+    function openStamp(uri) { window.open(uri, '_blank', 'noopener,noreferrer'); }
     function openMap(lat, lng) {
         if (lat == null || lng == null) return;
         var url = 'https://www.google.com/maps?q=' + lat + ',' + lng + '&z=17';
@@ -777,6 +782,7 @@ window.VLFeed = (function(){
         copyLink: copyLink,
         openLightbox: openLightbox,
         openMap: openMap,
+        openStamp: openStamp,
         toggleTheme: toggleTheme,
         closeLightbox: closeLightbox
     };
